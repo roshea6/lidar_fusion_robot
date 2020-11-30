@@ -10,6 +10,8 @@ project(lidar_fusion_robot)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  pcl_ros
+  pcl_conversions
 )
 
 ## System dependencies are found with CMake's conventions
@@ -102,10 +104,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES lidar_fusion_robot
-#  CATKIN_DEPENDS roscpp rospy
-#  DEPENDS system_lib
+  # INCLUDE_DIRS include
+  # LIBRARIES lidar_fusion_robot
+  CATKIN_DEPENDS roscpp rospy pcl_conversions pcl_ros
+  # DEPENDS system_lib
 )
 
 ###########
@@ -203,3 +205,11 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+add_executable(lidar_merger src/lidar_merger.cpp)
+target_link_libraries(lidar_merger ${catkin_LIBRARIES})
+add_dependencies(lidar_merger lidar_fusion_robot_generate_messages_cpp)
+
+add_executable(lidar_register src/lidar_registration.cpp)
+target_link_libraries(lidar_register ${catkin_LIBRARIES})
+add_dependencies(lidar_register lidar_fusion_robot_generate_messages_cpp)

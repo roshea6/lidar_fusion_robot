@@ -1,6 +1,6 @@
 <launch>
   
-  <arg name="model" default="$(find lidar_fusion_robot)/urdf/twin_lidar.urdf"/>
+  <arg name="model" default="$(find lidar_fusion_robot)/urdf/twin_velodyne.urdf"/>
   <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
 
   <include

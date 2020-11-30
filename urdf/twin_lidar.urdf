@@ -6,7 +6,7 @@
 		<collision>
 			<origin xyz="0 0 0" rpy="0 0 0"/>
 			<geometry>
-				<box size="1.0 2.0 .5"/>
+				<box size="2.0 4.0 .5"/>
 			</geometry>
 		</collision>
 

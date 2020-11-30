@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="twin_lidar_robot">
+	<xacro:arg name="gpu" default="false"/>
+	<xacro:property name="gpu" value="$(arg gpu)" />
+
+	<!-- Main body-->
+	<link name="base_link">
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="1.820 3.070 1.083"/>
+			</geometry>
+		</collision>
+
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="1.820 3.070 1.083"/>
+			</geometry>
+			<material name="red"/>
+		</visual>
+
+		<inertial>
+			<mass value="5.0" />
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+		</inertial>
+	</link>
+
+	<xacro:include filename="$(find velodyne_description)/urdf/HDL-32E.urdf.xacro"/>
+	<xacro:HDL-32E parent="base_link" name="velodyne1" topic="/velodyne_points1" hz="10" samples="2187" gpu="${gpu}">
+		<origin xyz=".85 1.45 0.55" rpy=".349 0 0" />
+	</xacro:HDL-32E>
+
+	<xacro:HDL-32E parent="base_link" name="velodyne2" topic="/velodyne_points2" hz="10" samples="2187" gpu="${gpu}">
+		<origin xyz="-.85 1.45 0.55" rpy=".349 0 0" />
+	</xacro:HDL-32E>
+
+	<!-- <xacro:HDL-32E parent="base_link" name="velodyne3" topic="/velodyne_points3" hz="10" samples="220" gpu="${gpu}">
+		<origin xyz="0 1.9 0.3" rpy="0 0 0" />
+	</xacro:HDL-32E> -->
+</robot>

@@ -1,0 +1,5 @@
+<launch>
+    <node name="pc_registration" pkg="lidar_fusion_robot" type="lidar_register" output="screen" cwd="node">
+    </node>
+
+</launch>
