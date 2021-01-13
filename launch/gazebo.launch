@@ -21,10 +21,10 @@
     name="spawn_model"
     pkg="gazebo_ros"
     type="spawn_model"
-    args="-urdf -model twin_lidar_robot -x 0 -y 0 -z 0.0 -R 0 -P 0 -Y 0 -param robot_description"
+    args="-urdf -x 0 -y 0 -z 0.0 -R 0 -P 0 -Y 0 -param /robot_description -model twin_velodyne"
     output="screen" />
 
-     <node
+    <node
     name="rviz"
     pkg="rviz"
     type="rviz"

@@ -29,12 +29,13 @@
 	</link>
 
 	<xacro:include filename="$(find velodyne_description)/urdf/HDL-32E.urdf.xacro"/>
-	<xacro:HDL-32E parent="base_link" name="velodyne1" topic="/velodyne_points1" hz="10" samples="2187" gpu="${gpu}">
-		<origin xyz=".85 1.45 0.55" rpy=".349 0 0" />
+	<xacro:HDL-32E parent="base_link" name="velodyne1" topic="/velodyne_points1" hz="10" samples="220" gpu="${gpu}">
+		<!-- Change roll value to tilt LiDAR -->
+		<origin xyz=".85 1.45 0.55" rpy="0 0 0" />
 	</xacro:HDL-32E>
 
-	<xacro:HDL-32E parent="base_link" name="velodyne2" topic="/velodyne_points2" hz="10" samples="2187" gpu="${gpu}">
-		<origin xyz="-.85 1.45 0.55" rpy=".349 0 0" />
+	<xacro:HDL-32E parent="base_link" name="velodyne2" topic="/velodyne_points2" hz="10" samples="220" gpu="${gpu}">
+		<origin xyz="-.85 1.45 0.55" rpy="0 0 0" />
 	</xacro:HDL-32E>
 
 	<!-- <xacro:HDL-32E parent="base_link" name="velodyne3" topic="/velodyne_points3" hz="10" samples="220" gpu="${gpu}">
