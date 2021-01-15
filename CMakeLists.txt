@@ -213,3 +213,7 @@ add_dependencies(lidar_merger lidar_fusion_robot_generate_messages_cpp)
 add_executable(lidar_register src/lidar_registration.cpp)
 target_link_libraries(lidar_register ${catkin_LIBRARIES})
 add_dependencies(lidar_register lidar_fusion_robot_generate_messages_cpp)
+
+add_executable(cloud_combiner src/pointcloud_combiner.cpp)
+target_link_libraries(cloud_combiner ${catkin_LIBRARIES})
+add_dependencies(cloud_combiner lidar_fusion_robot_generate_messages_cpp)

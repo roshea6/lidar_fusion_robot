@@ -24,11 +24,19 @@
     args="-urdf -x 0 -y 0 -z 0.0 -R 0 -P 0 -Y 0 -param /robot_description -model twin_velodyne"
     output="screen" />
 
-    <node
+  <node
     name="rviz"
     pkg="rviz"
     type="rviz"
     args="-d $(find lidar_fusion_robot)/rviz/basic_setup.rviz" />
+
+  <node type="point_cloud2_assembler" pkg="laser_assembler"
+        name="my_assembler">
+    <remap from="cloud" to="combined_cloud"/>
+    <param name="max_clouds" type="int" value="2" />
+    <param name="fixed_frame" type="string" value="base_link" />
+  </node>
+
   <!-- <node
     name="fake_joint_calibration"
     pkg="rostopic"
