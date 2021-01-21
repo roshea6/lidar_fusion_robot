@@ -2,15 +2,26 @@
   
   <arg name="model" default="$(find lidar_fusion_robot)/urdf/twin_velodyne.urdf"/>
   <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
+  <arg name="world_name" default="$(find lidar_fusion_robot)/worlds/test_world.world"/>
+  <arg name="map_file" default='$(find lidar_fusion_robot)/map/test_world.yaml'/>
 
-  <include
-    file="$(find gazebo_ros)/launch/empty_world.launch" />
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_name)"/>
+  </include>
   
   <node
     name="tf_footprint_base"
     pkg="tf"
     type="static_transform_publisher"
     args="0 0 0 0 0 0 base_link base_footprint 40" />
+
+
+  <!-- Publishes a transform between the robot base link and the map -->
+  <node
+    name="tf_robot_map"
+    pkg="tf"
+    type="static_transform_publisher"
+    args="0 0 0 0 0 0 base_link map 40" />
   
   <node
     name="robot_state_publisher"
@@ -30,12 +41,19 @@
     type="rviz"
     args="-d $(find lidar_fusion_robot)/rviz/basic_setup.rviz" />
 
-  <node type="point_cloud2_assembler" pkg="laser_assembler"
-        name="my_assembler">
-    <remap from="cloud" to="combined_cloud"/>
+  <node type="point_cloud2_assembler" pkg="laser_assembler" name="my_assembler">
+    <remap from="cloud" to="two_lidar_cloud"/>
     <param name="max_clouds" type="int" value="2" />
     <param name="fixed_frame" type="string" value="base_link" />
   </node>
+
+  <node type="cloud_combiner" pkg="lidar_fusion_robot" name="cloud_combiner"/>
+
+  <node type="kf_tracker" pkg="multi_object_tracking_lidar" name="object_tracker">
+    <remap from="filtered_cloud" to="combined_cloud"/>
+  </node>
+
+  <node type="map_server" pkg="map_server" name="map_server" args="$(arg map_file)"/>
 
   <!-- <node
     name="fake_joint_calibration"

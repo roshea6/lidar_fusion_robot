@@ -19,10 +19,10 @@ private:
     ros::NodeHandle n_;
 
     // Publisher for PointCloud2 assemled message
-    ros::Publisher cloud_pub_ = n_.advertise<sensor_msgs::PointCloud2>("assembled_cloud", 400);
+    ros::Publisher cloud_pub_ = n_.advertise<sensor_msgs::PointCloud2>("combined_cloud", 400);
 
     // Publisher for pushing the the two velodyne topics onto the same topic
-    ros::Publisher combined_cloud_pub_ = n_.advertise<sensor_msgs::PointCloud2>("combined_cloud", 400);
+    ros::Publisher combined_cloud_pub_ = n_.advertise<sensor_msgs::PointCloud2>("two_lidar_cloud", 400);
 
     // Service client
     ros::ServiceClient client_ = n_.serviceClient<laser_assembler::AssembleScans2>("assemble_scans2");
@@ -68,7 +68,7 @@ public:
 int main(int argc, char **argv)
 {
     // Initialize the node
-    ros::init(argc, argv, "cloud_converter");
+    ros::init(argc, argv, "cloud_combiner");
 
     // Define the nodehandle
     ros::NodeHandle n;
