@@ -12,7 +12,7 @@
 #include "pcl_ros/impl/transforms.hpp"
 #include <string.h>
 
-class cloudConverter
+class cloudAssembler
 {
 private:
     // Nodehandle for the class
@@ -33,7 +33,7 @@ private:
 
 
 public:
-    cloudConverter() {}
+    cloudAssembler() {}
 
     void assemblerCallback(const sensor_msgs::PointCloud2 cloud2)
     {
@@ -57,7 +57,7 @@ public:
         }
     }
 
-    void secoundCloudCallback(const sensor_msgs::PointCloud2 cloud)
+    void secondCloudCallback(const sensor_msgs::PointCloud2 cloud)
     {
         // Publish the cloud onto the shared topic
         combined_cloud_pub_.publish(cloud);
@@ -76,14 +76,14 @@ int main(int argc, char **argv)
     // Wait for the service to be available
     ros::service::waitForService("assemble_scans");
 
-    // Make a cloudConverter object
-    cloudConverter converter;
+    // Make an Assembler object so we can access its callbacks
+    cloudAssembler assembler;
 
-    // Use the converters callback function for the subscriber
-    ros::Subscriber cloud2_sub = n.subscribe("/velodyne_points1", 100, &cloudConverter::assemblerCallback, &converter);
+    // Use the callback to push the first cloud onto the shared topic and make a service call to the assembler
+    ros::Subscriber cloud2_sub = n.subscribe("/velodyne_points1", 100, &cloudAssembler::assemblerCallback, &assembler);
 
     // Use the callback to push the second Velodyne's pointcloud onto the shared topic
-    ros::Subscriber second_cloud2_sub = n.subscribe("/velodyne_points2", 100, &cloudConverter::secoundCloudCallback, &converter);
+    ros::Subscriber second_cloud2_sub = n.subscribe("/velodyne_points2", 100, &cloudAssembler::secondCloudCallback, &assembler);
     
     ros::spin();
     

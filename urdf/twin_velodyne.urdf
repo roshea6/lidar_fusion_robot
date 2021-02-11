@@ -29,6 +29,7 @@
 	</link>
 
 	<xacro:include filename="$(find velodyne_description)/urdf/HDL-32E.urdf.xacro"/>
+	<!-- Samples can be increased up to around 2280 if the computer is strong enough. I've found that anything higher 660 crashes on my VM. I was able to run 2280 on a non VM. -->
 	<xacro:HDL-32E parent="base_link" name="velodyne1" topic="/velodyne_points1" hz="10" samples="660" gpu="${gpu}">
 		<!-- Change roll value to tilt LiDAR -->
 		<origin xyz=".85 1.45 0.55" rpy="0 0 0" />
